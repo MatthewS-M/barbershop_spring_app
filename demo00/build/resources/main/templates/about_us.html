@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en"> <!--Шаблонизатор th: - берет данные из backend -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - The Barbershop</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<style>
+    html, body {
+        align-items: center;
+        font-family: "Samsung Sans", sans-serif;
+        justify-content: center;
+        height: 100%
+    }
+    .sign_out {
+        width: 130px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid #ffffff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        position: relative;
+        color: #ffffff;
+        font-weight: 500;
+        transition: .5s;
+        margin-left: 89%;
+        margin-top: 6%;
+    }
+    .sign_out:hover {
+        background: #ffffff;
+        color: #162938;
+    }
+    .register_btn {
+        position: absolute;
+        width: 130px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid #ffffff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #ffffff;
+        font-weight: 500;
+        transition: .5s;
+        margin-left: 89%;
+        margin-top: 0.5%;
+    }
+    .register_btn:hover {
+        background: #ffffff;
+        color: #162938;
+    }
+    .bg-image {
+        background-image: url(https://4kwallpapers.com/images/walls/thumbs_3t/7564.png);
+        background-position: center;
+        background-size: cover;
+        overflow: auto;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        overflow-x: hidden;
+        min-height: 100%;
+    }
+    .header-bar{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background: transparent;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.51);
+        border-radius: 0 0 20px 20px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 5px 10px rgb(88, 30, 239);
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        align-items: center;
+        z-index: 50;
+    }
+    .header-text {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 auto;
+        color: #fff;
+    }
+    .header-frame {
+        position: absolute;
+        display: flex;
+        width: 30%;
+        justify-content: center; /* center horizontally */
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        align-items: center;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 5px 10px;
+        background: rgba(32, 27, 40, 0.9);
+        border-radius: 7px;
+        border: 1px solid white;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    .icon_user {
+        position: absolute;
+        top: 3%;
+        right: 43%;
+        font-size: 1.6em;
+        color: #ffffff;
+    }
+    #user {
+        position: absolute;
+        top: 20%;
+        right: 13%;
+        width: 130px;
+        height: 40px;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #ffffff;
+        font-weight: 500;
+        border-bottom: thick solid #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    #role {
+        position: absolute;
+        top: 20%;
+        right: 1.5%;
+        width: 130px;
+        height: 40px;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #ffffff;
+        font-weight: 500;
+        border-bottom: thick solid #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+    }
+    .icon_role {
+        position: absolute;
+        top: 3%;
+        right: 37%;
+        font-size: 1.6em;
+        color: #ffffff;
+        margin-right: 5px;
+    }
+    #user span {
+        width: 100%;
+        text-align: center;
+        font-weight: bold
+    }
+    #role span {
+        width: 100%;
+        text-align: center;
+        font-weight: bold
+    }
+    .back_home {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 2%;
+        margin-top: 1%;
+    }
+    .back_home:hover {
+        text-decoration: underline;
+    }
+    .wrapper{
+        color: #ffffff;
+        text-align: center;
+        width: 70%;
+        background: transparent;
+        margin-left: 15% ;
+        border: 2px solid rgba(255,255,255,.5);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 30px rgba(155, 151, 151, 0.5);
+        justify-content: center;
+        z-index: 49;
+        height: fit-content;
+        overflow: hidden;
+    }
+</style>
+<body>
+    <div class="bg-image">
+        <div class="header-bar">
+
+            <a href="/" class="back_home">
+                <h4><ion-icon name="home-outline" style="font-size: 1.6em; vertical-align: middle; margin-top: -8px"></ion-icon>
+                    Home</h4>
+            </a>
+
+            <div class="header-frame">
+                <h2 class="header-text" >ABOUT US</h2>
+            </div>
+
+            <div id="user">
+                <span class="icon_user"><ion-icon name="person-circle-outline"></ion-icon></span>
+                <span sec:authentication="name"></span>
+            </div>
+
+            <div id="role">
+                <span class="icon_role"><ion-icon name="reader-outline"></ion-icon></span>
+                <th:block th:with="roleName=${#authentication.getPrincipal().getAuthorities()[0].getAuthority().substring(5)}">
+                    <span th:text="${roleName}"></span>
+                </th:block>
+            </div>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <button class="sign_out"><b>Sign Out</b></button>
+        </form>
+
+        <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <a th:href="@{/auth/register}"><button class="register_btn"><b>Register</b></button></a>
+        </th:block>
+
+        <div class="wrapper">
+            <p style="font-size: 1.5em;">The Barbershop has been serving the local community for over 20 years. Our experienced and friendly staff are dedicated to providing the highest quality haircuts and grooming services to our clients.</p>
+            <h2 style="color: #ffffff; font-size: 2em; text-decoration: underline; text-decoration-color: #ffffff;">Our Services</h2>
+            <p style="font-size: 1.5em; ">Our barbers are skilled in a variety of haircuts and grooming techniques, including:</p>
+            <ul style="font-size: 1.5em;  list-style-position: inside;padding-left: 0;">
+                <li style="padding-left: 20px;">Classic Haircuts</li>
+                <li style="padding-left: 20px;">Fades and Tapers</li>
+                <li style="padding-left: 20px;">Beard Trims</li>
+                <li style="padding-left: 20px;">Hot Towel Shaves</li>
+                <li style="padding-left: 20px;">Coloring and Highlights</li>
+            </ul>
+
+            <h2 style="color: #ffffff; font-size: 2em; text-decoration: underline; text-decoration-color: #ffffff;">Our Staff</h2>
+            <p style="font-size: 1.5em;">Our staff is made up of experienced and licensed barbers who are passionate about their craft. They are always up-to-date on the latest trends and techniques in men's grooming, and they take pride in providing personalized service to each and every client.</p>
+
+            <h2 style="color: #ffffff; font-size: 2em; text-decoration: underline; text-decoration-color: #ffffff">Our Location</h2>
+            <p style="font-size: 1.5em;">The Barbershop is located in the heart of downtown, with convenient parking and easy access to public transportation. Our modern and comfortable shop is designed to make you feel at home, with a relaxing atmosphere and friendly staff.</p>
+            <div style="overflow:hidden;">
+                <a href="https://yandex.ru/maps/org/chernaya_kost/175524490917/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;"></a>
+                <a href="https://yandex.ru/maps/213/moscow/category/hairdresser/184105812/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;"></a>
+                <a href="https://yandex.ru/maps/213/moscow/category/barber_shop/239628851835/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:28px;"></a>
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=37.635018%2C55.746231&mode=search&oid=175524490917&ol=biz&sll=37.625470%2C55.751564&sspn=0.074985%2C0.023895&text=barbershop&z=13.03" width="560" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center" style="margin-top: 3%">
+            <div class="card bg-light bg-opacity-75" style="width: 40%">
+                <h5 class="card-header">Owner of the company</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Matthew Suprunov</h5>
+                    <p class="card-text">Owner of our company is a highly skilled and experienced licensed barber who has worked his way up from an apprentice to become a successful business owner. He is dedicated, passionate, and focused on delivering exceptional services to his clients, which has helped him build a loyal customer base and a strong reputation in the industry. His achievements include expanding the business, growing the team, and consistently receiving positive feedback from satisfied clients.</p>
+                    <a href="https://www.tesla.com/elon-musk" class="btn btn-dark">Visit personal site</a>
+                </div>
+            </div>
+        </div>
+
+        <footer style="font-size: 1.5em; background-color: transparent; color: #ffffff; text-align: center; max-width: 70%; margin: 3% auto 0;">
+            <p>&copy; 2023 The Barbershop. All rights reserved.</p>
+        </footer>
+    </div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
