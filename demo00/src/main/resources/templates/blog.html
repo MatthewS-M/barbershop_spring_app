@@ -285,18 +285,6 @@
             <div class="header-frame">
                 <h2 class="header-text" >BARBERSHOP BLOG</h2>
             </div>
-
-            <div id="user">
-                <span class="icon_user"><ion-icon name="person-circle-outline"></ion-icon></span>
-                <span sec:authentication="name"></span>
-            </div>
-
-            <div id="role">
-                <span class="icon_role"><ion-icon name="reader-outline"></ion-icon></span>
-                <th:block th:with="roleName=${#authentication.getPrincipal().getAuthorities()[0].getAuthority().substring(5)}">
-                    <span th:text="${roleName}"></span>
-                </th:block>
-            </div>
         </div>
 
         <div class="form-check form-switch" id="adminModeSwitch" style="margin-top: 7%; margin-left: 3%; font-size: 1.4em; position: absolute;" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
@@ -306,10 +294,8 @@
         <form th:action="@{/logout}" method="post">
             <button class="sign_out"><b>Sign Out</b></button>
         </form>
-
-        <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-            <a th:href="@{/auth/register}"><button class="register_btn"><b>Register</b></button></a>
-        </th:block>
+        <a th:href="@{/auth/register}"><button class="register_btn"><b>Register</b></button></a>
+        
         <div class="row" style="margin-left: -20%; margin-top: 1%">
             <div class="col-md-8 offset-md-4">
                 <form th:action="@{/blog}" style="margin-bottom: 2px">
@@ -357,30 +343,7 @@
             window.location="[[@{/blog}]]" // очищаем все символы
         }
     </script>
-    <script type="text/javascript">
-        const switchInput = document.getElementById("flexSwitchCheckChecked");
-        const addButton = document.getElementById("add-button");
-        switchInput.addEventListener("change", function() {
-            if (switchInput.checked) {
-                addButton.style.display = "block";
-            } else {
-                addButton.style.display = "none";
-            }
-        });
-    </script>
 
-    <script>
-        const switcher = document.getElementById('flexSwitchCheckChecked');
-        const headerText = document.querySelector('.header-text');
-
-        switcher.addEventListener('change', function() {
-            if (this.checked) {
-                headerText.textContent = 'ADMIN OPERATION PANEL';
-            } else {
-                headerText.textContent = 'BARBERSHOP BLOG';
-            }
-        });
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
