@@ -342,16 +342,6 @@
                 <h2 class="header-text">BARBERSHOP CLIENT SYSTEM</h2>
             </div>
         </div>
-        <div id="user">
-            <span class="icon_user"><ion-icon name="person-circle-outline"></ion-icon></span>
-            <span sec:authentication="name"></span>
-        </div>
-        <div id="role">
-            <span class="icon_role"><ion-icon name="reader-outline"></ion-icon></span>
-            <th:block th:with="roleName=${#authentication.getPrincipal().getAuthorities()[0].getAuthority().substring(5)}">
-                <span th:text="${roleName}"></span>
-            </th:block>
-        </div>
     </div>
 
     <form th:action="@{/logout}" method="post">
