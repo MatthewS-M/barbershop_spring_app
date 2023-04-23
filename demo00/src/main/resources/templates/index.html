@@ -347,10 +347,7 @@
     <form th:action="@{/logout}" method="post">
         <button class="sign_out"><b>Sign Out</b></button>
     </form>
-
-    <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-        <a th:href="@{/auth/register}"><button class="register_btn"><b>Register</b></button></a>
-    </th:block>
+    <a th:href="@{/auth/register}"><button class="register_btn"><b>Register</b></button></a>
 
     <blockquote class="blockquote text-center">
         <button id="intro_btn2" style="color: white"><b>Search for clients by any criteria</b></button>
