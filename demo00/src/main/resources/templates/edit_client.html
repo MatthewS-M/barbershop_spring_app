@@ -15,10 +15,10 @@
         </blockquote>
         <div class="row" style="margin-left: -170px; margin-top: -13px">
             <div class="col-md-8 offset-md-4">
-                <form action="#" th:action="@{/save}" th:object="${Client}" method="post"> <!--Добавим ссылку на сохранение и укажем, что это относится к объекту student-->
+                <form action="#" th:action="@{/save}" th:object="${client}" method="post"> <!--Добавим ссылку на сохранение и укажем, что это относится к объекту student-->
                     <table style="margin-left: 170px; margin-top: 20px">
                         <tr>
-                            <td style="border-radius: 12px; text-align: center"><b>Client ID:</b></td>
+                            <td bgcolor="#d3d3d3" style="border-radius: 12px; text-align: center"><b>Client ID:</b></td>
                             <td>
                                 <input type="text" th:field="*{id}" readonly="readonly">
                             </td>

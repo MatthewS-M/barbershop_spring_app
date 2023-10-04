@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en"> <!--Шаблонизатор th: - берет данные из backend -->
+<head>
+  <meta charset="UTF-8">
+  <meta href="login.html">
+  <title>База клиентских постов</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<style>
+  html, body {
+    align-items: center;
+    font-family: "Samsung Sans", sans-serif;
+    justify-content: center;
+    height: 100%
+  }
+  .sign_out {
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    position: relative;
+    color: #ffffff;
+    font-weight: 500;
+    transition: .5s;
+    margin-left: 89%;
+    margin-top: 6%;
+  }
+  .sign_out:hover {
+    background: #ffffff;
+    color: #162938;
+  }
+  .register_btn {
+    position: absolute;
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #ffffff;
+    font-weight: 500;
+    transition: .5s;
+    margin-left: 89%;
+    margin-top: 0.5%;
+  }
+  .register_btn:hover {
+    background: #ffffff;
+    color: #162938;
+  }
+  .bg-image {
+    background-image: url(https://4kwallpapers.com/images/walls/thumbs_3t/7564.png);
+    background-position: center;
+    background-size: cover;
+    overflow: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    min-height: 100%;
+  }
+  .header-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: transparent;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.51);
+    border-radius: 0 0 20px 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 5px 10px rgb(88, 30, 239);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    z-index: 50;
+  }
+  .header-text {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+  }
+  .header-frame {
+      position: absolute;
+      display: flex;
+      width: 30%;
+      justify-content: center; /* center horizontally */
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      align-items: center;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 5px 10px;
+      background: rgba(32, 27, 40, 0.9);
+      border-radius: 7px;
+      border: 1px solid white;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  }
+  .icon_user {
+    position: absolute;
+    top: 3%;
+    right: 43%;
+    font-size: 1.6em;
+    color: #ffffff;
+  }
+  #user {
+    position: absolute;
+    top: 20%;
+    right: 13%;
+    width: 130px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #ffffff;
+    font-weight: 500;
+    border-bottom: thick solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  #role {
+    position: absolute;
+    top: 20%;
+    right: 1.5%;
+    width: 130px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #ffffff;
+    font-weight: 500;
+    border-bottom: thick solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+  .icon_role {
+    position: absolute;
+    top: 3%;
+    right: 37%;
+    font-size: 1.6em;
+    color: #ffffff;
+    margin-right: 5px;
+  }
+  #user span {
+    width: 100%;
+    text-align: center;
+    font-weight: bold
+  }
+  #role span {
+    width: 100%;
+    text-align: center;
+    font-weight: bold
+  }
+  .back_home {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      margin-left: 2%;
+      margin-top: 1%;
+  }
+  .back_home:hover {
+      text-decoration: underline;
+  }
+  table {
+      border-radius: 1rem;
+      overflow-y:scroll;
+      height:300px;
+      width: 77%;
+      display: block;
+      text-align: center;
+      align-content: center;
+      margin-left: 320px;
+  }
+  tbody {
+      height: 100px;
+      overflow: auto;
+      text-align: center;
+      align-content: center;
+  }
+  .tg {
+      border-collapse:collapse;
+      border-color: #00ffff;
+      border-spacing:0;
+      margin:auto;
+  }
+  .tg td {
+      background-color: #a6a4a4;
+      border-color: #0e0d0d;
+      border-style:solid;
+      vertical-align: middle;
+      border-width:1px;
+      color: #000000;
+      font-size:18px;
+      overflow: hidden;
+      font-weight: bold;
+      padding:10px 5px;
+      word-break:normal;
+      align-content: center;
+      text-align: center;
+  }
+  .publish-date {
+      min-width: 120px;
+  }
+  .tg th {
+      background-color: #282727;
+      border-color: #ffffff;
+      border-style:solid;
+      border-width:1px;
+      color: #151514;
+      font-family:Arial, sans-serif;
+      font-size:16px;
+      font-weight:normal;
+      padding: 10px 5px;
+      word-break:normal;
+  }
+  .tg .tg-0lax {
+      text-align:center;
+      vertical-align:center;
+  }
+
+  .tg-sort-header::-moz-selection{background:0 0}
+  .tg-sort-header::selection{background:0 0}
+  .tg-sort-header{cursor:pointer}
+  .tg-sort-header:after {
+      content:'';
+      float:right;
+      margin-top:7px;
+      border-width:0 5px 5px;
+      border-style:solid;
+      border-color:#404040 transparent;
+      visibility:hidden
+  }
+  .tg-sort-header:hover:after {visibility:visible}
+  .tg-sort-asc:after,
+  .tg-sort-asc:hover:after,
+  .tg-sort-desc:after {
+      visibility:visible;
+      opacity: .4
+  }
+  .tg-sort-desc:after {
+      border-bottom:none;
+      border-width:5px 5px 0
+  }
+  #tg-HGuDz tr td:last-child {
+      display: none;
+  }
+  #flexSwitchCheckChecked:checked ~ blockquote button {
+      display: block;
+  }
+</style>
+<body>
+    <div class="bg-image">
+        <div class="header-bar">
+            <a href="/" class="back_home">
+                <h4>
+                    <ion-icon name="home-outline" style="font-size: 1.6em; vertical-align: middle; margin-top: -8px"></ion-icon>
+                    Главная
+                </h4>
+            </a>
+
+            <div class="header-frame">
+                <h2 class="header-text" >Блог барбершопа</h2>
+            </div>
+
+            <div id="user">
+                <span class="icon_user"><ion-icon name="person-circle-outline"></ion-icon></span>
+                <span sec:authentication="name"></span>
+            </div>
+
+            <div id="role">
+                <span class="icon_role"><ion-icon name="reader-outline"></ion-icon></span>
+                <th:block th:with="roleName=${#authentication.getPrincipal().getAuthorities()[0].getAuthority().substring(5)}">
+                    <span th:text="${roleName}"></span>
+                </th:block>
+            </div>
+        </div>
+
+        <div class="form-check form-switch" id="adminModeSwitch" style="margin-top: 7%; margin-left: 3%; font-size: 1.4em; position: absolute;" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+            <label class="form-check-label text-light" for="flexSwitchCheckChecked">Включить мод админа</label>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <button class="sign_out"><b>Выйти</b></button>
+        </form>
+
+        <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <a th:href="@{/auth/register}"><button class="register_btn"><b>Регистрация</b></button></a>
+        </th:block>
+
+        <div class="input-box_role" style="font-size: 120%; margin-left: 10%; margin-top: 1%; position: absolute">
+            <select id="search_option" name="search_option" class="custom-select" style="margin-left: 10%">
+                <option selected disabled>Выбор поля поиска:</option>
+                <option value="post_id">АЙДИ</option>
+                <option value="post_name">Заголовок поста</option>
+                <option value="date">Дата</option>
+                <option value="text">Содержание</option>
+                <option value="client_name">Имя клиента</option>
+                <option value="keyword">Поиск по всем полям</option>
+            </select>
+        </div>
+        <div class="row" id="id_search_field" style="margin-left: -10%; margin-top: 1%; display: none">
+            <div class="col-md-8 offset-md-4">
+                <form th:action="@{/blog}" style="margin-bottom: 2px">
+                    <input type="text" name="keywordId" id="keywordId" placeholder="Id" size="70" th:value="${keywordId}" required/><label for="keywordId"><i class="fas fa-search"></i></label>
+                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>
+                    <input type="button" class="btn-dark btn-sm" value="Отчистить" id="btnClear" onclick="clearSearch()"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" id="post_name_search_field" style="margin-left: -10%; margin-top: 1%; display: none">
+            <div class="col-md-8 offset-md-4">
+                <form th:action="@{/blog}" style="margin-bottom: 2px">
+                    <input type="text" name="keywordPostName" id="keywordPostName" placeholder="Поиск по имени" size="70" th:value="${keywordPostName}" required/><label for="keywordPostName"><i class="fas fa-search"></i></label>
+                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>
+                    <input type="button" class="btn-dark btn-sm" value="Очистка" id="btnClear" onclick="clearSearch()"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" id="date_search_field" style="margin-left: -10%; margin-top: 1%; display: none">
+            <div class="col-md-8 offset-md-4">
+                <form th:action="@{/blog}" style="margin-bottom: 2px">
+                    <input type="text" name="keywordDate" id="keywordDate" placeholder="Поиск по дате" size="70" th:value="${keywordDate}" required/><label for="keywordDate"><i class="fas fa-search"></i></label>
+                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>
+                    <input type="button" class="btn-dark btn-sm" value="Очистка" id="btnClear" onclick="clearSearch()"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" id="text_search_field" style="margin-left: -10%; margin-top: 1%; display: none">
+            <div class="col-md-8 offset-md-4">
+                <form th:action="@{/blog}" style="margin-bottom: 2px">
+                    <input type="text" name="keywordText" id="keywordText" placeholder="Поиск по тексту" size="70" th:value="${keywordText}" required/><label for="keywordText"><i class="fas fa-search"></i></label>
+                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>
+                    <input type="button" class="btn-dark btn-sm" value="Очистка" id="btnClear" onclick="clearSearch()"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" id="client_name_search_field" style="margin-left: -10%; margin-top: 1%; display: none">
+            <div class="col-md-8 offset-md-4">
+                <form th:action="@{/blog}" style="margin-bottom: 2px">
+                    <input type="text" name="keywordClientName" id="keywordClientName" placeholder="Имя клиента" size="70" th:value="${keywordClientName}" required/><label for="keywordClientName"><i class="fas fa-search"></i></label>
+                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>
+                    <input type="button" class="btn-dark btn-sm" value="Очистка" id="btnClear" onclick="clearSearch()"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" id="keyword_search_field" style="margin-left: -10%; margin-top: 1%">
+            <div class="col-md-8 offset-md-4">
+                <form th:action="@{/blog}" style="margin-bottom: 2px">
+                    <input type="text" name="keyword" id="keyword" placeholder="общий поиск" size="70" th:value="${keyword}" required/><label for="keyword"><i class="fas fa-search"></i></label>
+                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>
+                    <input type="button" class="btn-dark btn-sm" value="Очистка" id="btnClear" onclick="clearSearch()"/>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const searchOption = document.getElementById('search_option');
+            searchOption.addEventListener('change', (event) => {
+                // get the selected option value
+                const selectedOption = event.target.value;
+
+                // show/hide the appropriate search field based on the selected option
+                switch(selectedOption) {
+                    case 'post_id':
+                        document.getElementById('id_search_field').style.display = 'block';
+                        document.getElementById('post_name_search_field').style.display = 'none';
+                        document.getElementById('date_search_field').style.display = 'none';
+                        document.getElementById('text_search_field').style.display = 'none';
+                        document.getElementById('client_name_search_field').style.display = 'none';
+                        document.getElementById('keyword_search_field').style.display = 'none';
+                        break;
+                    case 'post_name':
+                        document.getElementById('id_search_field').style.display = 'none';
+                        document.getElementById('post_name_search_field').style.display = 'block';
+                        document.getElementById('date_search_field').style.display = 'none';
+                        document.getElementById('text_search_field').style.display = 'none';
+                        document.getElementById('client_name_search_field').style.display = 'none';
+                        document.getElementById('keyword_search_field').style.display = 'none';
+                        break;
+                    case 'date':
+                        document.getElementById('id_search_field').style.display = 'none';
+                        document.getElementById('post_name_search_field').style.display = 'none';
+                        document.getElementById('date_search_field').style.display = 'block';
+                        document.getElementById('text_search_field').style.display = 'none';
+                        document.getElementById('client_name_search_field').style.display = 'none';
+                        document.getElementById('keyword_search_field').style.display = 'none';
+                        break;
+                    case 'text':
+                        document.getElementById('id_search_field').style.display = 'none';
+                        document.getElementById('post_name_search_field').style.display = 'none';
+                        document.getElementById('date_search_field').style.display = 'none';
+                        document.getElementById('text_search_field').style.display = 'block';
+                        document.getElementById('client_name_search_field').style.display = 'none';
+                        document.getElementById('keyword_search_field').style.display = 'none';
+                        break;
+                    case 'client_name':
+                        document.getElementById('id_search_field').style.display = 'none';
+                        document.getElementById('post_name_search_field').style.display = 'none';
+                        document.getElementById('date_search_field').style.display = 'none';
+                        document.getElementById('text_search_field').style.display = 'none';
+                        document.getElementById('client_name_search_field').style.display = 'block';
+                        document.getElementById('keyword_search_field').style.display = 'none';
+                        break;
+                    default:
+                        document.getElementById('id_search_field').style.display = 'none';
+                        document.getElementById('post_name_search_field').style.display = 'none';
+                        document.getElementById('date_search_field').style.display = 'none';
+                        document.getElementById('text_search_field').style.display = 'none';
+                        document.getElementById('client_name_search_field').style.display = 'none';
+                        document.getElementById('keyword_search_field').style.display = 'block';
+                }
+            });
+
+        </script>
+
+<!--        <div class="row" style="margin-left: -20%; margin-top: 1%">-->
+<!--            <div class="col-md-8 offset-md-4">-->
+<!--                <form th:action="@{/blog}" style="margin-bottom: 2px">-->
+<!--                    <input type="text" name="keyword" id="keyword" placeholder="search here" size="70" th:value="${keyword}" required/><label for="keyword"><i class="fas fa-search"></i></label>-->
+<!--                    <input type="submit" class="btn-light btn-sm" value="Поиск"/>-->
+<!--                    <input type="button" class="btn-dark btn-sm" value="Очистка" id="btnClear" onclick="clearSearch()"/>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="d-flex justify-content-center">
+            <table id="tg-HGuDz" class="tg">
+                <thead>
+                    <tr>
+                        <td class="tg-0lax">АЙДИ</td>
+                        <td class="tg-0lax">Имя клиента</td>
+                        <td class="tg-0lax">Загаловок</td>
+                        <td class="tg-0lax publish-date">Дата публикации</td>
+                        <td class="tg-0lax" style="height: 20%;">Текст</td>
+                        <td class="tg-0lax">Действие</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post: ${listPosts}"> <!-- for car in listCars. Обращаемся по именованному индексу-->
+                        <th scope="row" class="text-white" th:text="${post.post_id}">АЙДИ</th>
+                        <th scope="row" class="text-white" th:text="${post.client_name}">Имя клиента</th>
+                        <th scope="row" class="text-white" th:text="${post.post_name}">Загаловок</th>
+                        <th scope="row" class="text-white" th:text="${post.publish_date}">Дата публикации</th>
+                        <th scope="row" class="text-white" th:text="${post.text}"></th>
+                        <td>
+                            <a th:href="@{'/edit_post/' + ${post.post_id}}"><button type="button" class="btn btn-info">Edit</button></a>
+                            <a th:href="@{'/delete_post/' + ${post.post_id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <blockquote class="blockquote text-center" style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);">
+            <a href="/new_post">
+                <button type="button" id="add-button" class="btn-light btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off" style="display: none; text-decoration:none">Добавить пост</button>
+            </a>
+        </blockquote>
+    </div>
+    <script type="text/javascript">
+        function clearSearch() {
+            window.location="[[@{/blog}]]" // очищаем все символы
+        }
+    </script>
+    <script type="text/javascript">
+        const switchInput = document.getElementById("flexSwitchCheckChecked");
+        const addButton = document.getElementById("add-button");
+        switchInput.addEventListener("change", function() {
+            if (switchInput.checked) {
+                addButton.style.display = "block";
+            } else {
+                addButton.style.display = "none";
+            }
+        });
+    </script>
+
+    <script>
+        const switcher = document.getElementById('flexSwitchCheckChecked');
+        const headerText = document.querySelector('.header-text');
+
+        switcher.addEventListener('change', function() {
+            if (this.checked) {
+                headerText.textContent = 'Админ панель';
+            } else {
+                headerText.textContent = 'Блог Барбершопа';
+            }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#adminModeSwitch input[type="checkbox"]').click(function() {
+                if ($(this).prop("checked") == true) {
+                    // Show last column
+                    $('#tg-HGuDz tr').find('td:last-child').show();
+                }
+                else {
+                    // Hide last column
+                    $('#tg-HGuDz tr').find('td:last-child').hide();
+                }
+            });
+        });
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

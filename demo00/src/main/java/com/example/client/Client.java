@@ -14,7 +14,7 @@ public class Client {
     private String service;
     private String master_name;
 
-    protected Client() {
+    public Client() {
     }
 
     @Id // indicating the member field below is the primary key of current entity

@@ -1,403 +1,952 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en"> <!--Шаблонизатор th: - берет данные из backend -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<!--Шаблонизатор th: - берет данные из backend -->
 <head>
-  <meta charset="UTF-8">
-  <meta href="login.html">
-  <title>Client management system</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta href="login.html">
+    <title>Client management system</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- отвечает за открытие модального окна-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet">
+
 </head>
 <style>
-  html, body {
-    align-items: center;
-    font-family: "Samsung Sans", sans-serif;
-    justify-content: center;
-    height: 100%
-  }
-  .sign_out {
-    width: 130px;
-    height: 50px;
-    background: transparent;
-    border: 2px solid #ffffff;
-    outline: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    position: relative;
-    color: #ffffff;
-    font-weight: 500;
-    transition: .5s;
-    margin-left: 89%;
-    margin-top: 6%;
-  }
-  .sign_out:hover {
-    background: #ffffff;
-    color: #162938;
-  }
-  .register_btn {
-    position: absolute;
-    width: 130px;
-    height: 50px;
-    background: transparent;
-    border: 2px solid #ffffff;
-    outline: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    color: #ffffff;
-    font-weight: 500;
-    transition: .5s;
-    margin-left: 89%;
-    margin-top: 0.5%;
-  }
-  .register_btn:hover {
-    background: #ffffff;
-    color: #162938;
-  }
-  .bg-image {
-    background-image: url(https://4kwallpapers.com/images/walls/thumbs_3t/7564.png);
-    background-position: center;
-    background-size: cover;
-    overflow: auto;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow-x: hidden;
-    min-height: 100%;
-  }
-  .header-bar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: transparent;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.51);
-    border-radius: 0 0 20px 20px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 5px 10px rgb(88, 30, 239);
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    align-items: center;
-    z-index: 50;
-  }
-  .header-text {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin: 0 auto;
-    color: #fff;
-  }
-  .header-frame {
-      position: absolute;
-      display: flex;
-      width: 30%;
-      justify-content: center; /* center horizontally */
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      align-items: center;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 5px 10px;
-      background: rgba(32, 27, 40, 0.9);
-      border-radius: 7px;
-      border: 1px solid white;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  }
-  .icon_user {
-    position: absolute;
-    top: 3%;
-    right: 43%;
-    font-size: 1.6em;
-    color: #ffffff;
-  }
-  #user {
-    position: absolute;
-    top: 20%;
-    right: 13%;
-    width: 130px;
-    height: 40px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    color: #ffffff;
-    font-weight: 500;
-    border-bottom: thick solid #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-  }
-  #role {
-    position: absolute;
-    top: 20%;
-    right: 1.5%;
-    width: 130px;
-    height: 40px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    color: #ffffff;
-    font-weight: 500;
-    border-bottom: thick solid #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: left;
-    margin: 0;
-    padding: 0;
-  }
-  .icon_role {
-    position: absolute;
-    top: 3%;
-    right: 37%;
-    font-size: 1.6em;
-    color: #ffffff;
-    margin-right: 5px;
-  }
-  #user span {
-    width: 100%;
-    text-align: center;
-    font-weight: bold
-  }
-  #role span {
-    width: 100%;
-    text-align: center;
-    font-weight: bold
-  }
-  .back_home {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: bold;
-      margin-left: 2%;
-      margin-top: 1%;
-  }
-  .back_home:hover {
-      text-decoration: underline;
-  }
-  table {
-      border-radius: 1rem;
-      overflow-y:scroll;
-      height:300px;
-      width: 77%;
-      display: block;
-      text-align: center;
-      align-content: center;
-      margin-left: 320px;
-  }
-  tbody {
-      height: 100px;
-      overflow: auto;
-      text-align: center;
-      align-content: center;
-  }
-  .tg {
-      border-collapse:collapse;
-      border-color: #00ffff;
-      border-spacing:0;
-      margin:auto;
-  }
-  .tg td {
-      background-color: #a6a4a4;
-      border-color: #0e0d0d;
-      border-style:solid;
-      vertical-align: middle;
-      border-width:1px;
-      color: #000000;
-      font-size:18px;
-      overflow: hidden;
-      font-weight: bold;
-      padding:10px 5px;
-      word-break:normal;
-      align-content: center;
-      text-align: center;
-  }
-  .publish-date {
-      min-width: 120px;
-  }
-  .tg th {
-      background-color: #282727;
-      border-color: #ffffff;
-      border-style:solid;
-      border-width:1px;
-      color: #151514;
-      font-family:Arial, sans-serif;
-      font-size:16px;
-      font-weight:normal;
-      padding: 10px 5px;
-      word-break:normal;
-  }
-  .tg .tg-0lax {
-      text-align:center;
-      vertical-align:center;
-  }
+    html, body {
+        align-items: center;
+        font-family: "Samsung Sans", sans-serif;
+        justify-content: center;
+        height: 100%
+    }
 
-  .tg-sort-header::-moz-selection{background:0 0}
-  .tg-sort-header::selection{background:0 0}
-  .tg-sort-header{cursor:pointer}
-  .tg-sort-header:after {
-      content:'';
-      float:right;
-      margin-top:7px;
-      border-width:0 5px 5px;
-      border-style:solid;
-      border-color:#404040 transparent;
-      visibility:hidden
-  }
-  .tg-sort-header:hover:after {visibility:visible}
-  .tg-sort-asc:after,
-  .tg-sort-asc:hover:after,
-  .tg-sort-desc:after {
-      visibility:visible;
-      opacity: .4
-  }
-  .tg-sort-desc:after {
-      border-bottom:none;
-      border-width:5px 5px 0
-  }
-  #tg-HGuDz tr td:last-child {
-      display: none;
-  }
-  #flexSwitchCheckChecked:checked ~ blockquote button {
-      display: block;
-  }
+    .sign_out {
+        width: 130px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid #ffffff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        position: absolute;
+        display: inline-block;
+        color: #ffffff;
+        font-weight: 500;
+        transition: .5s;
+        margin-left: 89%;
+        margin-top: -3%;
+    }
+
+    .sign_out:hover {
+        background: #ffffff;
+        color: #162938;
+    }
+
+    .register_btn {
+        position: absolute;
+        width: 130px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid #ffffff;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #ffffff;
+        font-weight: 500;
+        transition: .5s;
+        margin-left: 89%;
+        margin-top: 1%;
+    }
+
+    .register_btn:hover {
+        background: #ffffff;
+        color: #162938;
+    }
+
+    .bg-image {
+        background-image: url(https://4kwallpapers.com/images/walls/thumbs_3t/7564.png);
+        background-position: center;
+        background-size: cover;
+        overflow: auto;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        overflow-x: hidden;
+        min-height: 100%;
+    }
+
+    .header-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background: transparent;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.51);
+        border-radius: 0 0 20px 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 10px rgb(88, 30, 239);
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        align-items: center;
+        z-index: 50;
+    }
+
+    .header-text {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 auto;
+        color: #fff;
+    }
+
+    .header-frame {
+        position: absolute;
+        display: flex;
+        width: 30%;
+        justify-content: center; /* center horizontally */
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        align-items: center;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 5px 10px;
+        background: rgba(88, 30, 239, 0.91);
+        border-radius: 7px;
+        border: 1px solid white;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon_user {
+        position: absolute;
+        top: 3%;
+        right: 43%;
+        font-size: 1.6em;
+        color: #ffffff;
+    }
+
+    #google_translate_element {
+        position: absolute;
+        top: 20%;
+        left: 15%;
+        width: 80px;
+        background: transparent;
+        display: block;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        z-index: 80;
+    }
+
+    /* .skiptranslate {*/
+    /*     display: none;*/
+    /* }*/
+    /*.goog-te-gadget-simple img {*/
+    /*    display: none !important;*/
+    /*}*/
+    /*.VIpgJd-ZVi9od-ORHb-OEVmcd{*/
+    /*    display: none;*/
+    /*}*/
+    #user {
+        position: absolute;
+        top: 20%;
+        right: 13%;
+        width: 130px;
+        height: 40px;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #ffffff;
+        font-weight: 500;
+        border-bottom: thick solid #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    #role {
+        position: absolute;
+        top: 20%;
+        right: 1.5%;
+        width: 130px;
+        height: 40px;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #ffffff;
+        font-weight: 500;
+        border-bottom: thick solid #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+    }
+
+    .icon_role {
+        position: absolute;
+        top: 3%;
+        right: 37%;
+        font-size: 1.6em;
+        color: #ffffff;
+        margin-right: 5px;
+    }
+
+    #user span {
+        width: 100%;
+        text-align: center;
+        font-weight: bold
+    }
+
+    #role span {
+        width: 100%;
+        text-align: center;
+        font-weight: bold
+    }
+
+    .back_home {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 2%;
+        margin-top: 1%;
+    }
+
+    .back_home:hover {
+        text-decoration: underline;
+    }
+
+    table {
+        border-radius: 1rem;
+        overflow-y: scroll;
+        height: 300px;
+        width: 77%;
+        display: block;
+        text-align: center;
+        align-content: center;
+        margin-left: 320px;
+    }
+
+    tbody {
+        height: 100px;
+        overflow: auto;
+        text-align: center;
+        align-content: center;
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-color: #00ffff;
+        border-spacing: 0;
+        margin: auto;
+    }
+
+    .tg td {
+        background-color: #a6a4a4;
+        border-color: #0e0d0d;
+        border-style: solid;
+        vertical-align: middle;
+        border-width: 1px;
+        color: #000000;
+        font-size: 18px;
+        overflow: hidden;
+        font-weight: bold;
+        padding: 10px 5px;
+        word-break: normal;
+        align-content: center;
+        text-align: center;
+    }
+
+    .publish-date {
+        min-width: 120px;
+    }
+
+    .tg th {
+        background-color: #282727;
+        border-color: #ffffff;
+        border-style: solid;
+        border-width: 1px;
+        color: #151514;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+        padding: 10px 5px;
+        word-break: normal;
+    }
+
+    .tg .tg-0lax {
+        text-align: center;
+        vertical-align: center;
+    }
+
+    .tg-sort-header::-moz-selection {
+        background: 0 0
+    }
+
+    .tg-sort-header::selection {
+        background: 0 0
+    }
+
+    .tg-sort-header {
+        cursor: pointer
+    }
+
+    .tg-sort-header:after {
+        content: '';
+        float: right;
+        margin-top: 7px;
+        border-width: 0 5px 5px;
+        border-style: solid;
+        border-color: #404040 transparent;
+        visibility: hidden
+    }
+
+    .tg-sort-header:hover:after {
+        visibility: visible
+    }
+
+    .tg-sort-asc:after,
+    .tg-sort-asc:hover:after,
+    .tg-sort-desc:after {
+        visibility: visible;
+        opacity: .4
+    }
+
+    .tg-sort-desc:after {
+        border-bottom: none;
+        border-width: 5px 5px 0
+    }
+
+    #tg-HGuDz tr td:last-child {
+        display: none;
+    }
+
+    #flexSwitchCheckChecked:checked ~ blockquote button {
+        display: inline-block;
+    }
+
+    .footer {
+        background-color: transparent;
+        border-top: 3px solid rgb(255, 255, 255);
+        color: #fff;
+        backdrop-filter: blur(5px);
+        padding: 50px 0;
+        font-family: 'Samsung Sans', sans-serif;
+        text-align: center;
+    }
+
+    .footer .socials {
+        margin-bottom: 30px;
+    }
+
+    .footer .socials a {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 24px;
+        color: #fff;
+        background-color: #333;
+        margin: 0 10px;
+        transition: 0.3s ease;
+    }
+
+    .footer .socials a:hover {
+        background-color: #555;
+    }
+
+    .footer .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .footer .row ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer .row ul li {
+        display: inline-block;
+        margin: 0 20px;
+    }
+
+    .footer .row ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        transition: 0.3s ease;
+    }
+
+    .footer .row ul li a:hover {
+        color: #aaa;
+    }
+
+    .footer .row p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    .footer .row p small {
+        display: block;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 767px) {
+        .footer {
+            padding: 30px 0;
+        }
+
+        .footer .socials a {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20px;
+            margin: 0 5px;
+        }
+
+        .footer .row ul li {
+            display: block;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .footer .row ul li a {
+            font-size: 16px;
+        }
+
+        .to_head a {
+            display: block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 24px;
+            color: #fff;
+            background-color: #333;
+            margin: 0 10px;
+            transition: 0.3s ease;
+        }
+
+        .to_head a:hover {
+            background-color: #555;
+        }
+
+        .to_head i {
+            margin-top: 3px;
+        }
+
+    }
 </style>
 <body>
-    <div class="bg-image">
-        <div class="header-bar">
-            <a href="/" class="back_home">
-                <h4>
-                    <ion-icon name="home-outline" style="font-size: 1.6em; vertical-align: middle; margin-top: -8px"></ion-icon>
-                    Home
-                </h4>
-            </a>
+<div class="bg-image">
+    <div id="head"></div>
+    <div class="header-bar">
+        <a href="/" class="back_home">
+            <h4>
+                <ion-icon name="home-outline"
+                          style="font-size: 1.6em; vertical-align: middle; margin-top: -8px"></ion-icon>
+                Home
+            </h4>
+        </a>
 
-            <div class="header-frame">
-                <h2 class="header-text" >BARBERSHOP BLOG</h2>
-            </div>
-
-            <div id="user">
-                <span class="icon_user"><ion-icon name="person-circle-outline"></ion-icon></span>
-                <span sec:authentication="name"></span>
-            </div>
-
-            <div id="role">
-                <span class="icon_role"><ion-icon name="reader-outline"></ion-icon></span>
-                <th:block th:with="roleName=${#authentication.getPrincipal().getAuthorities()[0].getAuthority().substring(5)}">
-                    <span th:text="${roleName}"></span>
-                </th:block>
-            </div>
+        <div class="header-frame">
+            <h2 class="header-text">BARBERSHOP BLOG</h2>
+        </div>
+        <div id="google_translate_element"></div>
+        <div id="user">
+            <span class="icon_user"><ion-icon name="person-circle-outline"></ion-icon></span>
+            <span sec:authentication="name"></span>
         </div>
 
-        <div class="form-check form-switch" id="adminModeSwitch" style="margin-top: 7%; margin-left: 3%; font-size: 1.4em; position: absolute;" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
-            <label class="form-check-label text-light" for="flexSwitchCheckChecked">Turn to admin mode</label>
+        <div id="role">
+            <span class="icon_role"><ion-icon name="reader-outline"></ion-icon></span>
+            <th:block
+                    th:with="roleName=${#authentication.getPrincipal().getAuthorities()[0].getAuthority().substring(5)}">
+                <span th:text="${roleName}"></span>
+            </th:block>
         </div>
-        <form th:action="@{/logout}" method="post">
-            <button class="sign_out"><b>Sign Out</b></button>
-        </form>
-
-        <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-            <a th:href="@{/auth/register}"><button class="register_btn"><b>Register</b></button></a>
-        </th:block>
-        <div class="row" style="margin-left: -20%; margin-top: 1%">
-            <div class="col-md-8 offset-md-4">
-                <form th:action="@{/blog}" style="margin-bottom: 2px">
-                    <input type="text" name="keyword" id="keyword" placeholder="search here" size="70" th:value="${keyword}" required/><label for="keyword"><i class="fas fa-search"></i></label>
-                    <input type="submit" class="btn-light btn-sm" value="SEARCH"/>
-                    <input type="button" class="btn-dark btn-sm" value="CLEAN/REFRESH" id="btnClear" onclick="clearSearch()"/>
-                </form>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <table id="tg-HGuDz" class="tg">
-                <thead>
-                    <tr>
-                        <td class="tg-0lax">Post ID</td>
-                        <td class="tg-0lax">Client name</td>
-                        <td class="tg-0lax">Post name</td>
-                        <td class="tg-0lax publish-date">Publish date</td>
-                        <td class="tg-0lax" style="height: 20%;">Text</td>
-                        <td class="tg-0lax">Actions</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="post: ${listPosts}"> <!-- for car in listCars. Обращаемся по именованному индексу-->
-                        <th scope="row" class="text-white" th:text="${post.post_id}">Post ID</th>
-                        <th scope="row" class="text-white" th:text="${post.client_name}">Client name is missing</th>
-                        <th scope="row" class="text-white" th:text="${post.post_name}">Post name is missing</th>
-                        <th scope="row" class="text-white" th:text="${post.publish_date}">Publish date is missing</th>
-                        <th scope="row" class="text-white" th:text="${post.text}">Text</th>
-                        <td>
-                            <a th:href="@{'/edit_post/' + ${post.post_id}}"><button type="button" class="btn btn-info">Edit</button></a>
-                            <a th:href="@{'/delete_post/' + ${post.post_id}}"><button type="button" class="btn btn-danger">Delete</button></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <blockquote class="blockquote text-center" style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);">
-            <a href="/new_post">
-                <button type="button" id="add-button" class="btn-light btn-lg" data-toggle="button" aria-pressed="false" autocomplete="off" style="display: none; text-decoration:none">Add a post</button>
-            </a>
-        </blockquote>
     </div>
-    <script type="text/javascript">
-        function clearSearch() {
-            window.location="[[@{/blog}]]" // очищаем все символы
+
+    <div class="form-check form-switch" id="adminModeSwitch"
+         style="margin-top: 7%; margin-left: 3%; font-size: 1.4em; position: relative; display: inline-block"
+         th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+        <label class="form-check-label text-light" for="flexSwitchCheckChecked">Turn to admin mode</label>
+    </div>
+    <a href="#foot">
+        <ion-icon name="arrow-down-circle-outline"
+                  style="font-size: 3em; color: white; position: absolute; margin-left: -19%; margin-top: 10%"></ion-icon>
+    </a>
+    <form th:action="@{/logout}" method="post">
+        <button class="sign_out"><b>Sign Out</b></button>
+    </form>
+
+    <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+        <a th:href="@{/auth/register}">
+            <button class="register_btn"><b>Register</b></button>
+        </a>
+    </th:block>
+
+    <div class="input-box_role" style="font-size: 100%; margin-left: 9.3%; margin-top: 0.8%; position: absolute">
+        <select id="search_option" name="search_option" class="custom-select" style="margin-left: 30%; background-color: #272727; color: #fff; border: none; border-bottom: 2px solid #fff; outline: none; font-family: 'Samsung Sans', sans-serif; font-size: 20px;">
+            <option selected disabled>Search field:</option>
+            <option value="post_id">Post ID</option>
+            <option value="post_name">Post name</option>
+            <option value="date">Post date</option>
+            <option value="text">Text</option>
+            <option value="client_name">Client name</option>
+            <option value="keyword">Search by all fields</option>
+        </select>
+    </div>
+
+    <div class="row" id="id_search_field" style="margin-left: -10%; margin-top: 0.5%;display: none">
+        <div class="col-md-8 offset-md-4">
+            <form th:action="@{/blog}" style="margin-bottom: 4px">
+                <div class="input-group w-75">
+                    <input type="text" class="form-control"  name="keywordId" id="keywordId" placeholder="search by id" th:value="${keywordId}" required><label for="keywordId"></label>
+                    <button class="btn btn-light btn-outline-secondary" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                    <button class="btn btn-dark" type="button" id="btnClear" onclick="clearSearch()">CLEAN/REFRESH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" id="post_name_search_field" style="margin-left: -10%; margin-top: 0.5%;display: none">
+        <div class="col-md-8 offset-md-4">
+            <form th:action="@{/blog}" style="margin-bottom: 4px">
+                <div class="input-group w-75">
+                    <input type="text" class="form-control"  name="keywordPostName" id="keywordPostName" placeholder="search by post name" th:value="${keywordPostName}" required><label for="keywordPostName"></label>
+                    <button class="btn btn-light btn-outline-secondary" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                    <button class="btn btn-dark" type="button" id="btnClear" onclick="clearSearch()">CLEAN/REFRESH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" id="date_search_field" style="margin-left: -10%; margin-top: 0.5%;display: none">
+        <div class="col-md-8 offset-md-4">
+            <form th:action="@{/blog}" style="margin-bottom: 4px">
+                <div class="input-group w-75">
+                    <input type="text" class="form-control"  name="keywordDate" id="keywordDate" placeholder="search by date" th:value="${keywordDate}" required><label for="keywordDate"></label>
+                    <button class="btn btn-light btn-outline-secondary" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                    <button class="btn btn-dark" type="button" id="btnClear" onclick="clearSearch()">CLEAN/REFRESH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="text_search_field" style="margin-left: -10%; margin-top: 0.5%;display: none">
+        <div class="col-md-8 offset-md-4">
+            <form th:action="@{/blog}" style="margin-bottom: 4px">
+                <div class="input-group w-75">
+                    <input type="text" class="form-control"  name="keywordText" id="keywordText" placeholder="search by text" th:value="${keywordText}" required><label for="keywordText"></label>
+                    <button class="btn btn-light btn-outline-secondary" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                    <button class="btn btn-dark" type="button" id="btnClear" onclick="clearSearch()">CLEAN/REFRESH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="client_name_search_field" style="margin-left: -10%; margin-top: 0.5%;display: none">
+        <div class="col-md-8 offset-md-4">
+            <form th:action="@{/blog}" style="margin-bottom: 4px">
+                <div class="input-group w-75">
+                    <input type="text" class="form-control"  name="keywordClientName" id="keywordClientName" placeholder="search by client name" th:value="${keywordClientName}" required><label for="keywordClientName"></label>
+                    <button class="btn btn-light btn-outline-secondary" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                    <button class="btn btn-dark" type="button" id="btnClear" onclick="clearSearch()">CLEAN/REFRESH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="keyword_search_field" style="margin-left: -10%; margin-top: 0.5%">
+        <div class="col-md-8 offset-md-4">
+            <form th:action="@{/blog}" style="margin-bottom: 4px">
+                <div class="input-group w-75">
+                    <input type="text" class="form-control"  name="keyword" id="keyword" placeholder="search by all fields" th:value="${keyword}" required><label for="keyword"></label>
+                    <button class="btn btn-light btn-outline-secondary" type="submit"><i class="fa fa-search"></i> SEARCH</button>
+                    <button class="btn btn-dark" type="button" id="btnClear" onclick="clearSearch()">CLEAN/REFRESH</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const searchOption = document.getElementById('search_option');
+        searchOption.addEventListener('change', (event) => {
+            // get the selected option value
+            const selectedOption = event.target.value;
+
+            // show/hide the appropriate search field based on the selected option
+            switch (selectedOption) {
+                case 'post_id':
+                    document.getElementById('id_search_field').style.display = 'block';
+                    document.getElementById('post_name_search_field').style.display = 'none';
+                    document.getElementById('date_search_field').style.display = 'none';
+                    document.getElementById('text_search_field').style.display = 'none';
+                    document.getElementById('client_name_search_field').style.display = 'none';
+                    document.getElementById('keyword_search_field').style.display = 'none';
+                    break;
+                case 'post_name':
+                    document.getElementById('id_search_field').style.display = 'none';
+                    document.getElementById('post_name_search_field').style.display = 'block';
+                    document.getElementById('date_search_field').style.display = 'none';
+                    document.getElementById('text_search_field').style.display = 'none';
+                    document.getElementById('client_name_search_field').style.display = 'none';
+                    document.getElementById('keyword_search_field').style.display = 'none';
+                    break;
+                case 'date':
+                    document.getElementById('id_search_field').style.display = 'none';
+                    document.getElementById('post_name_search_field').style.display = 'none';
+                    document.getElementById('date_search_field').style.display = 'block';
+                    document.getElementById('text_search_field').style.display = 'none';
+                    document.getElementById('client_name_search_field').style.display = 'none';
+                    document.getElementById('keyword_search_field').style.display = 'none';
+                    break;
+                case 'text':
+                    document.getElementById('id_search_field').style.display = 'none';
+                    document.getElementById('post_name_search_field').style.display = 'none';
+                    document.getElementById('date_search_field').style.display = 'none';
+                    document.getElementById('text_search_field').style.display = 'block';
+                    document.getElementById('client_name_search_field').style.display = 'none';
+                    document.getElementById('keyword_search_field').style.display = 'none';
+                    break;
+                case 'client_name':
+                    document.getElementById('id_search_field').style.display = 'none';
+                    document.getElementById('post_name_search_field').style.display = 'none';
+                    document.getElementById('date_search_field').style.display = 'none';
+                    document.getElementById('text_search_field').style.display = 'none';
+                    document.getElementById('client_name_search_field').style.display = 'block';
+                    document.getElementById('keyword_search_field').style.display = 'none';
+                    break;
+                default:
+                    document.getElementById('id_search_field').style.display = 'none';
+                    document.getElementById('post_name_search_field').style.display = 'none';
+                    document.getElementById('date_search_field').style.display = 'none';
+                    document.getElementById('text_search_field').style.display = 'none';
+                    document.getElementById('client_name_search_field').style.display = 'none';
+                    document.getElementById('keyword_search_field').style.display = 'block';
+            }
+        });
+
+    </script>
+
+
+    <div class="d-flex justify-content-center">
+        <table id="tg-HGuDz" class="tg">
+            <thead>
+            <tr>
+                <td class="tg-0lax">Post ID</td>
+                <td class="tg-0lax">Client name</td>
+                <td class="tg-0lax">Post name</td>
+                <td class="tg-0lax publish-date">Publish date</td>
+                <td class="tg-0lax" style="height: 20%;">Text</td>
+                <td class="tg-0lax">Actions</td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="post: ${listPosts}"> <!-- for car in listCars. Обращаемся по именованному индексу-->
+                    <th scope="row" class="text-white" th:text="${post.post_id}">Post ID</th>
+                    <th scope="row" class="text-white" th:text="${post.client_name}">Client name is missing</th>
+                    <th scope="row" class="text-white" th:text="${post.post_name}">Post name is missing</th>
+                    <th scope="row" class="text-white" th:text="${post.publish_date}">Publish date is missing</th>
+                    <th scope="row" class="text-white" th:text="${post.text}">Text</th>
+                    <td>
+                        <!--                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" th:data-bs-target="'#tableModal' + ${post.post_id}" th:data-client-id="${post.post_id}">-->
+                        <!--                                Manage-->
+                        <!--                            </button>-->
+
+
+                        <!--                            <div class="modal fade" th:id="'tableModal' + ${post.post_id}" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+                        <!--                                <div class="modal-dialog modal-dialog-centered">-->
+                        <!--                                    <div class="modal-content">-->
+                        <!--                                        <div class="modal-header">-->
+                        <!--                                            <h1 class="modal-title fs-5" id="modal-title">Managing post #[(${post.post_id})]</h1>-->
+                        <!--                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="modal-body">-->
+                        <!--                                            What actions do you want to perform with this post?-->
+                        <!--                                        </div>-->
+                        <!--                                        <div class="modal-footer">-->
+                        <!--                                            <a th:href="@{/edit_post/{id}(id=${post.post_id})}" id="edit-link"><button type="button" class="btn btn-info" style="margin-left: -600%">Edit</button></a>-->
+                        <!--                                            <a th:href="@{/delete_post/{id}(id=${post.post_id})}" id="delete-link"><button type="button" class="btn btn-danger" style="margin-left: -450%">Delete</button></a>-->
+                        <!--                                        </div>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+
+                        <button type="button" class="btn btn-light" data-bs-toggle="modal" th:data-client-id="${post.post_id}" th:data-bs-target="'#staticBackdrop' + ${post.post_id}" th:post_id="${post.post_id}">Edit</button>
+                        <a th:href="@{'/delete_post/' + ${post.post_id}}"><button type="button" class="btn btn-dark">Delete</button></a>
+                        <form action="/save_post" method="post">
+                            <div class="modal fade" th:id="'staticBackdrop' + ${post.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabels" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" style="border: 3px solid rgb(5,248,248); border-radius: 20px; backdrop-filter: blur(20px); box-shadow: 0 0 30px rgba(155, 151, 151, 0.5);">
+                                        <div class="modal-header bg-dark" style="border-radius: 20px">
+                                            <h1 class="modal-title text-light fs-5" id="staticBackdropLabels" style="margin-left: 43%"><b>Edit post</b></h1>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="table-responsive" style="width: 120%; overflow-x: hidden">
+                                                    <table class="table table-bordered" style="margin-left: 15%; overflow: hidden; border-collapse: collapse;">
+                                                        <tr style="border: 0 solid maroon">
+                                                            <td class="text-black bg-light" style="padding: 10px; border: 0 solid maroon; border-radius: 3rem">Post ID:</td>
+                                                            <td style="background-color: white; padding: 10px; border: 0 solid maroon">
+                                                                <input type="text" class="form-control" name="post_id" style="border-radius: 3px" th:value="${post.post_id}">
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border: 0 solid maroon">
+                                                            <td class="text-black bg-light" style="border-radius: 3rem;padding: 10px; border: 0 solid maroon">Client name:</td>
+                                                            <td style="background-color: white; padding: 10px; border: 0 solid maroon">
+                                                                <input type="text" class="form-control" name="client_name" style="border-radius: 3px" th:value="${post.client_name}">
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border: 0 solid maroon">
+                                                            <td class="text-black bg-light" style="padding: 10px; border-radius: 3rem; border: 0 solid maroon">Post name:</td>
+                                                            <td style="background-color: white; padding: 10px; border: 0 solid maroon">
+                                                                <input type="text" class="form-control" name="post_name" style="border-radius: 3px" th:value="${post.post_name}">
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border: 0 solid maroon">
+                                                            <td class="text-black bg-light" style="border-radius: 3rem; padding: 10px; border: 0 solid maroon">Date published:</td>
+                                                            <td style="background-color: white; padding: 10px; border: 0 solid maroon">
+                                                                <input type="text" class="form-control" name="publish_date" style="border-radius: 3px" th:value="${post.publish_date}">
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border: 0 solid maroon" >
+                                                            <td class="text-black bg-light" style="border-radius: 3rem; padding: 10px; border: 0 solid maroon">Text:</td>
+                                                            <td style="background-color: white; padding: 10px;  border: 0 solid maroon">
+                                                                <input type="text" class="form-control" name="text" style="border-radius: 3px" th:value="${post.text}">
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-dark border-3" style="border-radius: 1.2rem;background: linear-gradient(rgb(0,252,252) 30%, rgb(14,101,215) 70%);">
+                                            <button type="submit" class="btn btn-light text-center" data-tooggle="button" aria-pressed="false" autocomplete="off" >Save</button>
+                                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" style="margin-right: 35%">Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+        </table>
+    </div>
+
+    <div th:each="post: ${listPosts}" class="card bg-dark border-info border-3 bot h-auto"
+         style="width:60%; height: 200px; margin-left: 20%; margin-top: 1%">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img th:src="@{/photos/__${post.post_id}__.jpg}" class="img-fluid rounded-start" alt="Image not found">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body" style="height: 80%">
+                    <h5 class="card-title text-light border-light border-2" th:text="${post.post_name}">Post
+                        headline</h5>
+                    <h6 class="card-footer text-light border-light border-1" th:text="'Author: ' + ${post.client_name}">
+                        Post author</h6>
+                    <p class="card-text text-light" th:text="${#strings.substring(post.text, 0, 230)} + '...'">Post
+                        text</p>
+                    <p class="card-text text-info" th:text="${post.publish_date}"></p>
+
+                </div>
+                <div class="card-footer border-info border-3"
+                     style="display: flex; justify-content: center; align-items: center; horiz-align: center; vertical-align: center; padding: 2%">
+                    <button type="button" class="btn btn-light" style="width: 40%" data-bs-toggle="modal"
+                            th:data-bs-target="'#cardModal' + ${post.post_id}">
+                        More details
+                    </button>
+                    <a th:href="${post.vk_link}" target="_blank" rel="noopener"
+                       style="margin-left: 35%; color: lightgray; font-size: 2em">
+                        <ion-icon name="logo-vk"></ion-icon>
+                        </ion-icon></a>
+                    <a th:href="${post.link}" target="_blank" rel="noopener"
+                       style="margin-left: 2%; color: lightgray; font-size: 2em">
+                        <ion-icon name="logo-wordpress"></ion-icon>
+                    </a>
+                    <div class="modal fade" th:id="'cardModal' + ${post.post_id}" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">More information about post #[(${post.post_id})]</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p th:text="${post.text}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <blockquote class="blockquote text-center"
+                style="position: relative; bottom: 10%; margin-left: 65%; transform: translateX(-50%);">
+        <a href="/new_post">
+            <button type="button" id="add-button" class="btn-light btn-lg" data-toggle="button" aria-pressed="false"
+                    autocomplete="off" style="display: none">Add a post
+            </button>
+        </a>
+    </blockquote>
+
+    <!--        <footer>-->
+    <div class="footer" id="foot">
+        <a href="#head">
+            <ion-icon name="arrow-up-circle-outline"
+                      style="font-size: 3em; color: white; position: absolute; margin-left: 43%"></ion-icon>
+        </a>
+        <div class="socials">
+            <a href="https://web.whatsapp.com/"><i class="fa fa-whatsapp"></i></a>
+            <a href="https://twitter.com"><i class="fa fa-twitter"></i></a>
+            <a href="https://www.youtube.com/watch?v=XqZsoesa55w"><i class="fa fa-youtube"></i></a>
+            <a href="https://sito-piano.ru/"><i class="fa fa-beer"></i></a>
+        </div>
+
+        <div class="row" style="justify-content: center; align-items: center">
+            <ul>
+                <li><a href="#">Our blog</a></li>
+                <li><a href="https://palchevsky.ru/">Our teacher's site</a></li>
+                <li><a href="/about_us">About us</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h6>Contact Us</h6>
+                <p>City: Moscow</p>
+                <p>Address: Kerschenskaya st. 1A, building 2, 1006B</p>
+                <p>Phone: +7 (999) 888-7766</p>
+                <p>Email: pi213community@gmail.com</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h6>Awards and Certifications</h6>
+                <ul class="awards-list">
+                    <li><i class="fa fa-trophy"></i> Winner of the 2022 Best Business Award</li>
+                    <li><i class="fa fa-certificate"></i> Certified by the International Association of Business
+                        Professionals
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <p>"Балласт" team presents. Key figures: Matthew Suprunov, Alexander Oleynikov, Nicolai Sharipov.</p>
+            <p>© All rights reserved</p>
+        </div>
+    </div>
+    <!--        </footer>-->
+</div>
+<script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {pageLanguage: 'en'},
+            'google_translate_element'
+        );
+    }
+</script>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/blog}]]" // очищаем все символы
+    }
+</script>
+<script type="text/javascript">
+    const switchInput = document.getElementById("flexSwitchCheckChecked");
+    const addButton = document.getElementById("add-button");
+    switchInput.addEventListener("change", function () {
+        if (switchInput.checked) {
+            addButton.style.display = "block";
+        } else {
+            addButton.style.display = "none";
         }
-    </script>
-    <script type="text/javascript">
-        const switchInput = document.getElementById("flexSwitchCheckChecked");
-        const addButton = document.getElementById("add-button");
-        switchInput.addEventListener("change", function() {
-            if (switchInput.checked) {
-                addButton.style.display = "block";
+    });
+</script>
+
+<script>
+    const switcher = document.getElementById('flexSwitchCheckChecked');
+    const headerText = document.querySelector('.header-text');
+
+    switcher.addEventListener('change', function () {
+        if (this.checked) {
+            headerText.textContent = 'ADMIN OPERATION PANEL';
+        } else {
+            headerText.textContent = 'BARBERSHOP BLOG';
+        }
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#adminModeSwitch input[type="checkbox"]').click(function () {
+            if ($(this).prop("checked") == true) {
+                // Show last column
+                $('#tg-HGuDz tr').find('td:last-child').show();
             } else {
-                addButton.style.display = "none";
+                // Hide last column
+                $('#tg-HGuDz tr').find('td:last-child').hide();
             }
         });
-    </script>
-
-    <script>
-        const switcher = document.getElementById('flexSwitchCheckChecked');
-        const headerText = document.querySelector('.header-text');
-
-        switcher.addEventListener('change', function() {
-            if (this.checked) {
-                headerText.textContent = 'ADMIN OPERATION PANEL';
-            } else {
-                headerText.textContent = 'BARBERSHOP BLOG';
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = document.getElementsByTagName('*');
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+            for (let j = 0; j < element.childNodes.length; j++) {
+                const node = element.childNodes[j];
+                if (node.nodeType === 3) {
+                    const text = node.nodeValue;
+                    const replacedText = text.replace('Powered by', '');
+                    if (replacedText !== text) {
+                        element.replaceChild(document.createTextNode(replacedText), node);
+                    }
+                }
             }
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#adminModeSwitch input[type="checkbox"]').click(function() {
-                if ($(this).prop("checked") == true) {
-                    // Show last column
-                    $('#tg-HGuDz tr').find('td:last-child').show();
-                }
-                else {
-                    // Hide last column
-                    $('#tg-HGuDz tr').find('td:last-child').hide();
-                }
-            });
-        });
-    </script>
+        }
+    });
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>
